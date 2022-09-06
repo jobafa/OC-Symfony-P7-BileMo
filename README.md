@@ -13,7 +13,6 @@ Developing a REST API to provide mobile phones catalog.
 * MySQL 5.7.36
 
 ## Installation
-[![Repo Size](https://img.shields.io/github/repo-size/jbafa/OC-Symfony-P7-BileMo.svg?label=Repo+Size)](https://github.com/jobafa/OC-Symfony-P7-BileMo.git/tree/master) \
 To clone the project run the following command:
 ```
 git clone https://github.com/jobafa/OC-Symfony-P7-BileMo.git
