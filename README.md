@@ -21,7 +21,7 @@ Install dependancies :
 ```
 composer install
 ```
-## Base de données
+## DataBase
 Modify the .env file for the database connection.
 ```
 DATABASE_URL=mysql://root:@127.0.0.1:3306/the-name-of-your-database
