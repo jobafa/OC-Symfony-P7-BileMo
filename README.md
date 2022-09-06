@@ -1,6 +1,6 @@
 
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/1569282481be4b359cb2c9b4ef33aab0)](https://www.codacy.com/manual/jobafa/OC-Symfony-P7-BileMo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jobafa/OC-Symfony-P7-BileMo&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/eec9b433c6364ff6b9f2e63d51481c89)](https://www.codacy.com/gh/jobafa/OC-Symfony-P7-BileMo/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jobafa/OC-Symfony-P7-BileMo&amp;utm_campaign=Badge_Grade)
 
 # OC-Symfony-P7-BileMo
 
