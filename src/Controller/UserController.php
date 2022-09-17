@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-//use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -26,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
-//use Symfony\Component\Serializer\SerializerInterface;
+
 
 class UserController extends AbstractController
 {
@@ -98,7 +97,6 @@ class UserController extends AbstractController
             $context = SerializationContext::create()->setGroups("get:users");
             
             return $serializer->serialize($usersList, 'json', $context);
-            //return $serializer->serialize($usersList, 'json', ['groups' => 'get:users']);
         });
 
         return new JsonResponse($jsonUsersList, Response::HTTP_OK, [], true);
@@ -161,13 +159,11 @@ class UserController extends AbstractController
 
         $clientId = $this->getUser()->getId();
         $userClientId = $user->getClient()->getId();
-        // TODO
-        //TESTER : SI LE USER EST LIE AU CLIENT ? REQUETE : THROW EXCEPTION
+        
         if ($userClientId === $clientId) {
             $userdetail = $userRepository->findOneByClient($clientId, $request->get('id'));
-            //return new Response($this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups(['get:users'])), 200, ['Content-Type' => 'application/json']);
+            
         } else {
-            //throw new HttpException( 403);
             throw new AccessDeniedHttpException();
         }
         
@@ -176,7 +172,6 @@ class UserController extends AbstractController
         $context->setVersion($version);
        
         return $serializer->serialize($userdetail, 'json', $context);
-        //return $serializer->serialize($user, 'json', ['groups' => 'get:users']);
         });
 
         return new JsonResponse($jsonUser, Response::HTTP_OK, [], true);
@@ -238,23 +233,19 @@ class UserController extends AbstractController
         if ($errors->count() > 0) {
             return new JsonResponse($serializer->serialize($errors, 'json'), JsonResponse::HTTP_BAD_REQUEST, [], true);
         }
-
-        //$idClient = $this->getUser()->getId();
         
         $emailExists = $userRepository->findOneBy(['email' => $user->getEmail()]);
         //TEST UNICITY OF EMAIL FIELD
         if ($emailExists) {
             throw new HttpException( 409,  'This email  already exists !');
-            //return new Response($this->serializer->serialize(['code' => 409, 'message' => 'User already exists with this email for this company.'], 'json'), 409, ['Content-Type' => 'application/json']);
+            
         }
-        //$user->setClient($clientRepository->find($idClient));
         $user->setClient($this->getUser());
         $user->setCreatedAt(new \DateTime('now'));
 
         $em->persist($user);
         $em->flush();
  
-        //$jsonUser = $serializer->serialize($user, 'json', ['groups' => 'get:users']);
         $context = SerializationContext::create()->setGroups("get:users");
         $jsonUser =  $serializer->serialize($user, 'json', $context);
         
@@ -304,8 +295,7 @@ class UserController extends AbstractController
     {
         $clientId = $this->getUser()->getId();
         $userClientId = $user->getClient()->getId();
-        // TODO
-        //TESTER : SI LE USER EST LIE AU CLIENT ? REQUETE : THROW EXCEPTION
+       
         if ($userClientId !== $clientId) {
             throw new AccessDeniedHttpException();
         } 

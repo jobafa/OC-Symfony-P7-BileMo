@@ -8,6 +8,8 @@ use App\Repository\UserRepository;
 use JMS\Serializer\Annotation\Since;
 use JMS\Serializer\Annotation\Groups;
 use Hateoas\Configuration\Annotation as Hateoas;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -29,6 +31,22 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *      exclusion = @Hateoas\Exclusion(groups="get:users", excludeIf = "expr(not is_granted('ROLE_ADMIN'))"),
  * )
  *
+ * @Hateoas\Relation(
+ *      "post",
+ *      href = @Hateoas\Route(
+ *          "createUser",
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="get:users", excludeIf = "expr(not is_granted('ROLE_ADMIN'))"),
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "userslist",
+ *      href = @Hateoas\Route(
+ *          "app_clientusers",
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="get:users"),
+ * )
+ *
  */
 class User
 {
@@ -42,18 +60,43 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @NotBlank
+     * @Assert\Email(
+     *      message="Cette adresse n'est pas adresse email valide !"
+     * )
+     * 
      * @Groups("get:users", "get:clients")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+    * @NotBlank(message="Ce champ ne peut pas être vide !")
+     * @Assert\Length(
+     *      min="5",
+     *      max="30",
+     *      minMessage="Ce champ doit contenir au moins 5 caractéres !",
+     *      maxMessage="Ce champ doit contenir au maximum 30 caractéres !"
+     * )
+     *
      * @Groups("get:users", "get:clients")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @NotBlank(message="Ce champ ne peut pas être vide !")
+     * @Assert\Length(
+     *      min="5",
+     *      max="30",
+     *      minMessage="Ce champ doit contenir au moins 5 caractéres !",
+     *      maxMessage="Ce champ doit contenir au maximum 30 caractéres !"
+     * 
+     * )
+     *
      * @Groups("get:users", "get:clients")
      */
     private $firstname;

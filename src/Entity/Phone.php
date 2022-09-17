@@ -12,11 +12,19 @@ use Hateoas\Configuration\Annotation as Hateoas;
 /**
  * @ORM\Entity(repositoryClass=PhoneRepository::class)
  * 
- * * @Hateoas\Relation(
+ * @Hateoas\Relation(
  *      "self",
  *      href = @Hateoas\Route(
  *          "detailPhone",
  *          parameters = { "id" = "expr(object.getId())" }
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="get:phones")
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "phoneslist",
+ *      href = @Hateoas\Route(
+ *          "app_phone",
  *      ),
  *      exclusion = @Hateoas\Exclusion(groups="get:phones")
  * )
