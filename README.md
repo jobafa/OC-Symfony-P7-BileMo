@@ -38,11 +38,11 @@ Load fictive data:
 ```
 php bin/console doctrine:fixtures:load
 ```
-## To test the endspoints, either run :
+## To test the endspoints, run :
 ```
 php bin/console server:run
 ```
-OR
+You can also use Postman
 
 use Postman
 
