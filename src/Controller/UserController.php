@@ -160,12 +160,11 @@ class UserController extends AbstractController
         $clientId = $this->getUser()->getId();
         $userClientId = $user->getClient()->getId();
         
-        if ($userClientId === $clientId) {
-            $userdetail = $userRepository->findOneByClient($clientId, $request->get('id'));
-            
-        } else {
+        if ($userClientId !== $clientId){
             throw new AccessDeniedHttpException();
         }
+        
+        $userdetail = $userRepository->findOneByClient($clientId, $request->get('id'));
         
         $version = $versioningService->getVersion();
         $context = SerializationContext::create()->setGroups("get:users");
