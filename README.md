@@ -44,7 +44,6 @@ php bin/console server:run
 ```
 You can also use Postman
 
-use Postman
 
 ## API Documentation  
 ```
