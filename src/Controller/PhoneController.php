@@ -3,27 +3,28 @@
 namespace App\Controller;
 
 use App\Entity\Phone;
+use OpenApi\Annotations as OA;
 use App\Repository\PhoneRepository;
+use JMS\Serializer\SerializerInterface;
+use JMS\Serializer\SerializationContext;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Contracts\Cache\ItemInterface;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-//use Symfony\Component\Serializer\SerializerInterface;
-use JMS\Serializer\SerializerInterface;
-use JMS\Serializer\SerializationContext;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Security;
-use OpenApi\Annotations as OA;
 
 class PhoneController extends AbstractController
 {
     /**
      * GETS THE LIST OF BILEMO PHONES
      * 
-     * @Route("/api/phone", name="app_phone", methods={"GET"})
+     * @Route("/api/phones", name="app_phone", methods={"GET"})
      * 
      * @OA\Response(
      *     response=200,
@@ -96,7 +97,7 @@ class PhoneController extends AbstractController
     /**
      * GETS THE PHONE'S DETAILS
      * 
-     * @Route("/api/phone/{id}", name="detailPhone", methods={"GET"})
+     * @Route("/api/phones/{id}", name="detailPhone", methods={"GET"})
      * 
      * @OA\Response(
      *     response=200,
@@ -125,17 +126,26 @@ class PhoneController extends AbstractController
      * @OA\Tag(name="Phones")
      *
      * @param Phone $phone
+     * @param Request $request
      * @param SerializerInterface $serializer
      * @return JsonResponse
      *
      */
-    public function getDetailPhone(Phone $phone, SerializerInterface $serializer): JsonResponse {
-      
+    public function getDetailPhone(Phone $phone, Request $request, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    {
+        // On valide
+        $validator->validate($request);
+
+        if (!ctype_digit($request->get('id'))) {
+            
+            throw new HttpException( 400,  'Bad Request !'); 
+            
+        }
             $context = SerializationContext::create();
             $jsonPhone = $serializer->serialize($phone, 'json', $context);  /**/
 
             return new JsonResponse($jsonPhone, Response::HTTP_OK, [], true);
-       }
+    }
     
     
 }

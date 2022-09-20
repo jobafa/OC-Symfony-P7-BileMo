@@ -149,8 +149,15 @@ class UserController extends AbstractController
      * @return JsonResponse
      *
      */
-    public function getUserByClient(User $user,UserRepository $userRepository, SerializerInterface $serializer, Request $request, TagAwareCacheInterface $cache, VersioningService $versioningService): JsonResponse
+    public function getUserByClient(User $user,UserRepository $userRepository, SerializerInterface $serializer, Request $request, TagAwareCacheInterface $cache, VersioningService $versioningService, ValidatorInterface $validator): JsonResponse
     {
+        // On valide
+        $validator->validate($request);
+
+        if (!ctype_digit($request->get('id'))) {
+            throw new HttpException( 400,  'Bad Request !'); 
+            }
+        
         $idCache = "getUserByClient";
         
         $jsonUser = $cache->get($idCache, function (ItemInterface $item) use ($versioningService, $user, $request, $userRepository, $serializer) {

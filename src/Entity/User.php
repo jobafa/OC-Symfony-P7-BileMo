@@ -4,15 +4,16 @@ Namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
-//use Symfony\Component\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\Since;
 use JMS\Serializer\Annotation\Groups;
 use Hateoas\Configuration\Annotation as Hateoas;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Positive;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * 
  * @Hateoas\Relation(
  *      "self",
  *      href = @Hateoas\Route(
